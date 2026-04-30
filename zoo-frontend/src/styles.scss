@@ -1,0 +1,30 @@
+@use "primeicons/primeicons.css" as *;
+@use "./app/shared/styles/driverjs-theme-green";
+@import "driver.js/dist/driver.css";
+
+html {
+  color-scheme: light;
+}
+
+html.dark-mode {
+  color-scheme: dark;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  font-family: "Source Sans 3", Arial, sans-serif;
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.splitter {
+  height: 100%;
+}

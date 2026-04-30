@@ -1,0 +1,91 @@
+<div class="auth-page-container">
+  <p-card class="auth-card auth-card-wide">
+    <div class="auth-card-content">
+      <div class="auth-image-container">
+        <img
+          ngSrc="/assets/images/login.png"
+          alt="Imagen de un tigre"
+          width="600"
+          height="400"
+          priority
+        />
+      </div>
+
+      <div class="auth-form-container">
+        <div class="auth-header">
+          <app-logo-image [size]="150" />
+          <h1>¡Bienvenido a {{ authStore.nombreMarca() }}!</h1>
+          <p class="subtitle">Inicia sesión para continuar</p>
+        </div>
+
+        @defer(on viewport; prefetch on idle; hydrate on viewport) {
+        <div class="auth-content">
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <zoo-form-field
+              label="Usuario"
+              type="email"
+              [control]="email"
+              [errorMessage]="getEmailError()"
+            />
+
+            <zoo-form-field
+              label="Contraseña"
+              type="password"
+              [control]="password"
+              [errorMessage]="getPasswordError()"
+              [showPasswordToggle]="true"
+            />
+
+            <!-- Widget de reCAPTCHA v2 (visible) o fallback propio -->
+            @if (useCustomCaptcha) {
+              <app-custom-captcha
+                (verifiedChange)="onCustomCaptchaChange($event)"
+                (tokenChange)="onCustomTokenChange($event)"
+              ></app-custom-captcha>
+            } @else {
+              <div id="recaptcha-login" class="recaptcha-container"></div>
+            }
+
+            @if (recaptchaError()) {
+              <small class="p-error recaptcha-error">Por favor, verifica que no eres un robot.</small>
+            }
+
+            <div class="auth-link-container right-aligned">
+              <a routerLink="/forgot-password">¿Olvidaste tu contraseña?</a>
+            </div>
+
+            <div class="auth-button-container">
+              <p-button
+                type="submit"
+                label="Iniciar Sesión"
+                severity="primary"
+                [rounded]="true"
+                [disabled]="loading() || (!recaptchaToken && !customCaptchaToken)"
+                styleClass="auth-button"
+                fluid
+              >
+                @if (loading()) {
+                <zoo-loader
+                  [size]="20"
+                  [color]="'var(--p-primary-contrast-color)'"
+                />
+                }
+              </p-button>
+            </div>
+          </form>
+          <div class="auth-link-container">
+            <p>
+              ¿No tienes una cuenta?
+              <a routerLink="/signup">Crea una cuenta</a>
+            </p>
+          </div>
+        </div>
+        } @placeholder {
+        <div class="auth-placeholder">
+          <p>Cargando formulario...</p>
+        </div>
+        }
+      </div>
+    </div>
+  </p-card>
+</div>
